@@ -1,4 +1,4 @@
-﻿namespace Octokitty.Environment
+﻿namespace Octokitty.Environments
 {
     internal static class Checkout
     {
@@ -7,7 +7,7 @@
 
         public static dynamic Init()
         {
-            string token = Configuration.GetOAuth();
+            string token = Configuration.AUTH_TOKEN;
 
             foreach (char banned_symbol in BANNED_CHARS)
             {

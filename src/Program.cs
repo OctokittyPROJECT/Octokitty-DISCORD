@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 
 using Discord;
 using Discord.Commands;
@@ -8,7 +9,9 @@ using Discord.WebSocket;
 
 using Newtonsoft.Json;
 
-using Octokitty.Environment;
+using Octokitty.Environments;
+using Octokitty.Coroutines;
+using System.Reflection;
 
 namespace Octokitty
 {
@@ -23,12 +26,16 @@ namespace Octokitty
             => new Program().Run();
 
         private DiscordSocketClient bot_client;
+        private CommandService command_service;
+
+        private IServiceProvider _provider_srv;  
 
         private async Task Run()
         {
             Console.OutputEncoding = Encoding.Unicode;
 
             Configuration.Setup();
+            Configuration.CheckAudit();
 
             var crt_check = Checkout.Init();
 
@@ -36,15 +43,46 @@ namespace Octokitty
                 return;
 
 
-            auth_token = Configuration.auth_token;
-            bot_prefix = Configuration.bot_prefix;
+            auth_token = Configuration.AUTH_TOKEN;
+            bot_prefix = Configuration.BOT_PREFIX;
 
             bot_client = new DiscordSocketClient();
+
+            command_service = new CommandService();
 
             await bot_client.LoginAsync(TokenType.Bot, auth_token);
             await bot_client.StartAsync();
 
+            bot_client.Log += Log;
+
+            bot_client.Ready += Ready;
+
             await Task.Delay(-1);
+        }
+
+        private Task Ready()
+        {
+            host_domain = Configuration.HOST_DOMAIN;
+
+            new GuildsIO().Charge(new dynamic[] { });
+
+            var host_guild = bot_client.GetGuild(host_domain);
+
+            return Task.CompletedTask;
+        }
+
+        private Task Log(LogMessage entry)
+        {
+            var ARG = Convert.ToString(entry);
+
+            if (ARG.Contains("Exception"))
+            {
+                Logger.Error(ARG);
+            }
+            else
+                Logger.Info(ARG);
+
+            return Task.CompletedTask;
         }
     }
 }
