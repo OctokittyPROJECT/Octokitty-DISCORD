@@ -10,11 +10,6 @@ namespace Octokitty.Environments
 {
     internal static class Configuration
     {
-        public static string AUTH_TOKEN;
-        public static string BOT_PREFIX;
-
-        public static ulong HOST_DOMAIN;
-
         public static async void Setup()
         {
             if (!File.Exists("cfg-init.json"))
@@ -22,6 +17,7 @@ namespace Octokitty.Environments
                 {
                     JObject cfg_pattern = new JObject(
                         new JProperty("auth_token", ""),
+                        new JProperty("gits_token", ""),
                         new JProperty("bot_prefix", ""),
                         new JProperty("host_domain", new ulong()));
 
@@ -41,14 +37,16 @@ namespace Octokitty.Environments
             {
                 JObject cfg = JObject.Parse(File.ReadAllText("cfg-init.json"));
 
-                AUTH_TOKEN = cfg.GetValue("auth_token").Value<string>();
-                BOT_PREFIX = cfg.GetValue("bot_prefix").Value<string>();
+                Environment.SetEnvironmentVariable("AUTH_TOKEN", cfg.GetValue("auth_token").Value<string>());
+                Environment.SetEnvironmentVariable("GITS_TOKEN", cfg.GetValue("gits_token").Value<string>());
 
-                HOST_DOMAIN = cfg.GetValue("host_domain").Value<ulong>();
+                Environment.SetEnvironmentVariable("BOT_PREFIX", cfg.GetValue("bot_prefix").Value<string>());
+
+                Environment.SetEnvironmentVariable("HOST_DOMAIN", cfg.GetValue("host_domain").Value<string>());
             }
         }
 
-        public static async void CheckAudit()
+        public static void CheckAudit()
         {
             var audit_date
                          = DateTime.Now.ToString("dd/MM/yyyy");
@@ -57,6 +55,11 @@ namespace Octokitty.Environments
 
             if (File.Exists("logs/" + audit_path))
             {
+                /*
+                 * Every block of checkout module initialized even before far away when logging service and its IO servitors will be used,
+                 * thats why as in the IO servitors we can't use ready-to-use logging service: it will cause an exception of RAM's overflow.
+                 */
+
                 Console.ForegroundColor = ConsoleColor.Yellow;
 
                 Console.WriteLine("[INIT] " + $"{DateTime.Now.ToString("HH:mm:ss tt")}" + "Audit for current date is available at the moment.");
@@ -69,7 +72,7 @@ namespace Octokitty.Environments
 
                 byte[] audit_bytes = Encoding.UTF8.GetBytes(audit_entry);
 
-                new LogIO().Merge("logs/" + audit_path, audit_bytes);
+                new LogsIO().Merge("logs/" + audit_path, audit_bytes);
             }
         }
     }
