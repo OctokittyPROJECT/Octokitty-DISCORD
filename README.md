@@ -18,12 +18,16 @@
 * https://www.markdownguide.org/basic-syntax/#reference-style-links/
  -->
 
+<div align="center">
+
 [![Contributors][Contributors-SHIELD]][Contributors-URL]
 [![Forks][Forks-SHIELD]][Forks-URL]
 [![Stargazers][Stargazers-SHIELD]][Stargazers-URL]
 [![Issues][Issues-SHIELD]][Issues-URL]
 [![License][License-SHIELD]][License-URL]
 [![Commits][Commits-SHIELD]][Commits-URL]
+
+</div>
 
 <!-- PROJECT'S LOGO -->
 <!--
@@ -242,7 +246,7 @@ Acknowledgements
 [Stargazers-URL]: https://github.com/OctokittyPROJECT/Octokitty-DISCORD/stargazers/
 [Issues-SHIELD]: https://img.shields.io/github/issues/OctokittyPROJECT/Octokitty-DISCORD?style=for-the-badge
 [Issues-URL]: https://github.com/OctokittyPROJECT/Octokitty-DISCORD/issues/
-[License-SHIELD]: https://img.shields.io/github/license/OctokittyPROJECT/Octokitty-DISCORD?style=for-the-badge
+[License-SHIELD]: https://img.shields.io/badge/license-mit-green?style=for-the-badge
 [License-URL]: https://github.com/othneildrew/Best-README-Template/blob/default/LICENSE.md/
 [Commits-SHIELD]: https://img.shields.io/github/last-commit/OctokittyPROJECT/Octokitty-DISCORD?style=for-the-badge
 [Commits-URL]: https://github.com/OctokittyPROJECT/Octokitty-DISCORD/commits/
