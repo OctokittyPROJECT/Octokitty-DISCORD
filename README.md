@@ -247,7 +247,7 @@ Acknowledgements
 [Issues-SHIELD]: https://img.shields.io/github/issues/OctokittyPROJECT/Octokitty-DISCORD?style=for-the-badge
 [Issues-URL]: https://github.com/OctokittyPROJECT/Octokitty-DISCORD/issues/
 [License-SHIELD]: https://img.shields.io/badge/license-mit-green?style=for-the-badge
-[License-URL]: https://github.com/othneildrew/Best-README-Template/blob/default/LICENSE.md/
+[License-URL]: https://github.com/OctokittyPROJECT/Octokitty-DISCORD/blob/default/LICENSE.md/
 [Commits-SHIELD]: https://img.shields.io/github/last-commit/OctokittyPROJECT/Octokitty-DISCORD?style=for-the-badge
 [Commits-URL]: https://github.com/OctokittyPROJECT/Octokitty-DISCORD/commits/
 [DOTNET-SHIELD]: https://img.shields.io/badge/-dotnet-512BD4?style=for-the-badge&logo=dotnet&logoColor=white/
