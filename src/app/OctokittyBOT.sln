@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctokittyBOT", "OctokittyBOT.csproj", "{5B79AD26-577D-4C53-B86F-CC68E755AEB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctokittyBOT", "OctokittyBOT.csproj", "{A5A51E41-EEA6-4F8C-AB7B-9F00CD29C0A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5B79AD26-577D-4C53-B86F-CC68E755AEB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B79AD26-577D-4C53-B86F-CC68E755AEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B79AD26-577D-4C53-B86F-CC68E755AEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B79AD26-577D-4C53-B86F-CC68E755AEB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5A51E41-EEA6-4F8C-AB7B-9F00CD29C0A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5A51E41-EEA6-4F8C-AB7B-9F00CD29C0A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5A51E41-EEA6-4F8C-AB7B-9F00CD29C0A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5A51E41-EEA6-4F8C-AB7B-9F00CD29C0A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {782AE4E6-C788-4BC2-9CBF-86D12DC6DA63}
+		SolutionGuid = {86677EA0-988F-44FE-951F-097B1AABE354}
 	EndGlobalSection
 EndGlobal
