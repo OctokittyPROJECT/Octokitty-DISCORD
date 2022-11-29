@@ -1,10 +1,9 @@
-﻿using System.Text;
-
-namespace OctokittyBOT.Coroutines
+﻿namespace OctokittyBOT.Coroutines
 {
     /// <summary>
     /// Configuration module for bot
     /// </summary>
+    /// 
     public static class Config
     {
         /// <summary>
@@ -16,6 +15,7 @@ namespace OctokittyBOT.Coroutines
         /// <exception cref="ArgumentException">
         /// Exception will be thrown when one of the variables in ENV config file are not defined
         /// </exception>
+        /// 
         public static void InitCfg(string path = ".env")
         {
             if (!File.Exists(path))
@@ -59,6 +59,7 @@ namespace OctokittyBOT.Coroutines
         /// <exception cref="FileNotFoundException">
         /// If program can't find ENV config path which was when bot started - throws exception
         /// </exception>
+        /// 
         public static void WriteCfg(string key, string value = "")
         {
             string path = Environment.GetEnvironmentVariable("PATH_TO_CFG")!;

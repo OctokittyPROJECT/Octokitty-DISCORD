@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace OctokittyBOT.Coroutines
 {
     /// <summary>
     /// Handles any utility task for this bot
     /// </summary>
+    /// 
     public static class Utils
     {
         /// <summary>
@@ -14,6 +14,7 @@ namespace OctokittyBOT.Coroutines
         /// <param name="path">
         /// A path to ENV config file
         /// </param>
+        /// 
         public static void PrepareCfg(string path)
         {
             using (FileStream stream = File.Create(path))
@@ -40,6 +41,7 @@ namespace OctokittyBOT.Coroutines
         /// <param name="contents">
         /// Contents which will be written into audit
         /// </param>
+        /// 
         public static void LogsHandler(string path, string contents)
         {
             byte[] contentsInBytes = Encoding.UTF8.GetBytes($"{contents}\n");

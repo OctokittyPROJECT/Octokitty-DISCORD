@@ -3,8 +3,9 @@
 namespace OctokittyBOT.Modules
 {
     /// <summary>
-    /// Class for fast and cozy requester for <see cref="GitHubAppsClient"/>
+    /// Class for fast and sharp requester for <see cref="GitHubAppsClient"/>
     /// </summary>
+    /// 
     public static class GitHubConnector
     {
         /// <summary>
@@ -13,6 +14,7 @@ namespace OctokittyBOT.Modules
         /// <returns>
         /// Returns a <see cref="GitHubClient"/> with <c>token</c> <see cref="Credentials"/> which created from <see cref="Environment">ENV</see>
         /// </returns>
+        /// 
         public static GitHubClient GenerateClientFromEnv()
         {
             // When authenticated, you have 5000 requests per hour available.
@@ -42,6 +44,7 @@ namespace OctokittyBOT.Modules
         /// <returns>
         /// Returns an unauthorized <see cref="GitHubClient"/> only with <paramref name="headerValue"/>
         /// </returns>
+        /// 
         public static GitHubClient GenerateClient(string headerValue = "OctokittyBOT")
         {
             return new GitHubClient(new ProductHeaderValue(headerValue));
@@ -58,6 +61,7 @@ namespace OctokittyBOT.Modules
         /// <returns>
         /// Returns an authorized <see cref="GitHubClient"/> by <see cref="Credentials"/> with <paramref name="token"/>
         /// </returns>
+        /// 
         public static GitHubClient GenerateClient(string token, string headerValue = "OctokittyBOT")
         {
             // When authenticated, you have 5000 requests per hour available.
@@ -86,6 +90,7 @@ namespace OctokittyBOT.Modules
         /// <returns>
         /// Returns an authorized <see cref="GitHubClient"/> by <see cref="Credentials"/> with <paramref name="username"/> and <paramref name="password"/>
         /// </returns>
+        /// 
         public static GitHubClient GenerateClient(string username, string password, string headerValue = "OctokittyBOT")
         {
             // When authenticated, you have 5000 requests per hour available.
@@ -117,6 +122,7 @@ namespace OctokittyBOT.Modules
         /// <returns>
         /// Returns a <see cref="GitHubClient"/> with Enterprise client
         /// </returns>
+        /// 
         public static GitHubClient GenerateClient(Uri enterpriseUri, string headerValue)
         {
             var client = new GitHubClient(new ProductHeaderValue(headerValue), enterpriseUri);

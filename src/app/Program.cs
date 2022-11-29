@@ -4,8 +4,11 @@ using Discord.Net;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using OctokittyBOT.Commands;
 using OctokittyBOT.Coroutines;
+using OctokittyBOT.Commands.Simple;
+using System.Text;
+using System.Windows;
+using OctokittyBOT.Modules;
 
 namespace OctokittyBOT
 {
@@ -61,13 +64,15 @@ namespace OctokittyBOT
         {
             Config.InitCfg();
 
+            PrepareConsole();
+
             _client = _serviceProvider.GetRequiredService<DiscordSocketClient>();
 
             _service = _serviceProvider.GetRequiredService<CommandService>();
 
             _client.Log += Log;
 
-            await _client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("BOT_TOKEN"));            
+            await _client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("BOT_TOKEN"));
             await _client.StartAsync();
 
             _client.Ready += Ready;
@@ -75,22 +80,38 @@ namespace OctokittyBOT
 
             await Task.Delay(Timeout.Infinite);
         }
+
+        /// <summary>
+        /// Method for preparing console for bot's processing
+        /// </summary>
+        private void PrepareConsole()
+        {
+            Console.Title = $"OctokittyBOT terminal, starting datetime: {DateTimeOffset.Now} (Offset UTC)";
+
+            Console.InputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
+        }
         #endregion
 
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
-
-            switch(command.Data.Name)
+            switch (command.Data.Name)
             {
                 case "apis-info":
-                    var apisInfoCommand = new CommandApisInfo(_serviceProvider);
-                    await apisInfoCommand.Execute(command);
+                    await new CommandApisInfo(_serviceProvider).Execute(command);
                     break;
                 case "get-repository":
-                    var getReposCommand = new CommandGetRepos(_serviceProvider);
-                    await getReposCommand.Execute(command);
+                    await new CommandGetRepos(_serviceProvider).Execute(command);
                     break;
-
+                case "get-branch":
+                    await new CommandGetBranch(_serviceProvider).Execute(command);
+                    break;
+                case "get-release":
+                    await new CommandGetRelease(_serviceProvider).Execute(command);
+                    break;
+                case "get-issue":
+                    await new CommandGetIssue(_serviceProvider).Execute(command);
+                    break;
                 default:
                     await command.RespondAsync("An unexpected error via handling command! Bot is not responding!", null, false, true);
                     break;
@@ -101,6 +122,11 @@ namespace OctokittyBOT
         {
             Logger.Info("Bot is ready to work!", null, true);
 
+            var gitClient = GitHubConnector.GenerateClientFromEnv();
+
+            var release = await gitClient.Repository.Release.Get("AlbeeTheLoli", "deltaLauncher", "0.0.0");
+
+            Console.WriteLine(release.Name);
 
             // Here we can force non-nullable because reader of ENV config already checks on null
 
@@ -129,15 +155,56 @@ namespace OctokittyBOT
                 .AddOption("owner", ApplicationCommandOptionType.String, "Repository's owner nickname/login")
                 .AddOption("repository", ApplicationCommandOptionType.String, "Repository's name specified by owner")
                 .AddOption("repository_id", ApplicationCommandOptionType.Number, "A 32-bit integer value (long) representing an ID of repository"),
+                new SlashCommandBuilder()
+                .WithName("get-branch")
+                .WithDescription("Gets all required information about given repository's branch via owner/repository's name or ID")
+                .WithDescriptionLocalizations(new Dictionary<string, string>
+                {
+                    { "en-GB", "Gets all required information about given repository's branch via owner/repository's name or ID" },
+                    { "en-US", "Gets all required information about given repository's branch via owner/repository's name or ID" },
+                })
+                .WithDMPermission(false)
+                .AddOption("owner", ApplicationCommandOptionType.String, "Repository's owner nickname/login")
+                .AddOption("repository", ApplicationCommandOptionType.String, "Repository's name specified by owner")
+                .AddOption("repository_id", ApplicationCommandOptionType.Number, "A 32-bit integer value (long) representing an ID of repository")
+                .AddOption("branch_name", ApplicationCommandOptionType.String, "Branch's name of repository", true),
+                new SlashCommandBuilder()
+                .WithName("get-release")
+                .WithDescription("Gets all required information about given repository's release via owner/repository's name or ID")
+                .WithDescriptionLocalizations(new Dictionary<string, string>
+                {
+                    { "en-GB", "Gets all required information about given repository's release via owner/repository's name or ID" },
+                    { "en-US", "Gets all required information about given repository's release via owner/repository's name or ID" },
+                })
+                .WithDMPermission(false)
+                .AddOption("owner", ApplicationCommandOptionType.String, "Repository's owner nickname/login")
+                .AddOption("repository", ApplicationCommandOptionType.String, "Repository's name specified by owner")
+                .AddOption("repository_id", ApplicationCommandOptionType.Number, "A 32-bit integer value (long) representing an ID of repository")
+                .AddOption("tag", ApplicationCommandOptionType.String, "Release's target tag")
+                .AddOption("release_id", ApplicationCommandOptionType.Integer, "Release's target ID"),
+                new SlashCommandBuilder()
+                .WithName("get-issue")
+                .WithDescription("Gets all required information about given repository's issue via owner/repository's name or ID")
+                .WithDescriptionLocalizations(new Dictionary<string, string>
+                {
+                    { "en-GB", "Gets all required information about given repository's issue via owner/repository's name or ID" },
+                    { "en-US", "Gets all required information about given repository's issue via owner/repository's name or ID" },
+                })
+                .WithDMPermission(false)
+                .AddOption("owner", ApplicationCommandOptionType.String, "Repository's owner nickname/login")
+                .AddOption("repository", ApplicationCommandOptionType.String, "Repository's name specified by owner")
+                .AddOption("repository_id", ApplicationCommandOptionType.Number, "A 32-bit integer value (long) representing an ID of repository")
+                .AddOption("issue_number", ApplicationCommandOptionType.Integer, "ID number of issue in given repos", true)
             };
 
-            foreach(SlashCommandBuilder command in guildCommands)
+            foreach (SlashCommandBuilder command in guildCommands)
             {
                 try
                 {
                     // Now that we have our builder, we can call the CreateApplicationCommandAsync method to make our slash command.
                     await guild.CreateApplicationCommandAsync(command.Build());
-                } catch(HttpException exception)
+                }
+                catch (HttpException exception)
                 {
                     var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);
                     Logger.Error(json, "COMMAND", true);

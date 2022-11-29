@@ -9,15 +9,19 @@ namespace OctokittyBOT.Commands
     /// <summary>
     /// Inheritor and base template for commands instances
     /// </summary>
+    /// 
     public abstract class CommandTemplate
     {
         /// <summary>
         /// A _client for bot of type
         /// </summary>
+        /// 
         public readonly DiscordSocketClient? _client;
+
         /// <summary>
         /// A bot's command service which handles commands
         /// </summary>
+        /// 
         public readonly CommandService? _service;
 
         /// <summary>
@@ -29,6 +33,7 @@ namespace OctokittyBOT.Commands
         /// <exception cref="NotImplementedException">
         /// Thrown when command doesn't override <see cref="Execute(SocketSlashCommand)"/> task
         /// </exception>
+        /// 
         public virtual Task Execute(SocketSlashCommand command)
         {
             throw new NotImplementedException();
@@ -37,6 +42,7 @@ namespace OctokittyBOT.Commands
         /// <summary>
         /// Pings both <see cref="DiscordSocketClient"/>? and <see cref="CommandService"/>? for current instance of <see cref="SocketSlashCommand"/>
         /// </summary>
+        /// 
         public virtual void PingNullables(DiscordSocketClient? client, CommandService? service)
         {
             var stackFrame = new StackFrame(2);
@@ -60,6 +66,7 @@ namespace OctokittyBOT.Commands
         /// <returns>
         /// An <see cref="Embed"/>[] for Discord from given <paramref name="exception"/>
         /// </returns>
+        /// 
         public virtual async Task PingError(SocketSlashCommand command, Exception exception)
         {
             EmbedBuilder embed = new EmbedBuilder()
